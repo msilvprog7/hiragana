@@ -1,0 +1,138 @@
+/**
+ * App
+ */
+.app {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/**
+ * Colors
+ */
+.gray {
+  background-color: #c4c4c4;
+}
+
+.light-gray {
+  background-color: #f9f9f9;
+}
+
+.green {
+  background-color: #6af389;
+}
+
+.blue {
+  background-color: #50b4fc;
+}
+
+.orange {
+  background-color: #fcb750;
+}
+
+.light-orange {
+  background-color: #fed79d;
+}
+
+.font-white {
+  color: #f9f9f9;
+}
+
+/**
+ * Sizes
+ */
+
+.large {
+  font-size: 128px;
+}
+
+.medium-large {
+  font-size: 100px;
+}
+
+.small-medium {
+  font-size: 32px;
+}
+
+/**
+ * Prompt
+ */
+.prompt {
+  margin: 25px;
+  width: 80%;
+  text-align: center;
+  font-size: 32px;
+}
+
+/**
+ * Display Box
+ */
+.display-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.row {
+  margin: 20px;
+  display: flex;
+  width: 100%;
+}
+
+.info {
+  width: 80px;
+  padding: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.right {
+  margin-left: auto;
+}
+
+.round {
+  border-radius: 20px;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 20px;
+  width: 240px;
+  height: 240px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+/**
+ * Form
+ */
+.form {
+  margin: 50px 0px;
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+}
+
+input[type="text"] {
+  border-radius: 15px;
+  font-size: 30px;
+}
+
+.button {
+  margin: 25px 0px;
+  height: 50px;
+  border: none;
+  border-radius: 15px;
+  font-size: 30px;
+}

@@ -5,6 +5,25 @@ I've been learning basics on Duolingo, but character practice
 only has a few characters at a time and I'd like to practice
 **recall** from the entire character set.
 
+## Setup
+
+Dependencies:
+
+- [nodejs](https://nodejs.org/)
+- [yarn](https://yarnpkg.com/)
+
+Build:
+
+```cmd
+yarn install
+```
+
+Develop:
+
+```cmd
+yarn start
+```
+
 ## UX Design
 
 I'm learning how to use Figma so I've exported mockups of the
