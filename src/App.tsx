@@ -1,97 +1,88 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import DisplayBox from "./components/DisplayBox";
+import Form from "./components/Form";
+import Prompt from "./components/Prompt";
 import "./App.css";
 
-const DisplayChangeIntervalMs = 3000;
-
-enum DisplayType {
-  Question = 0,
-  GreatResults = 1,
-  ImproveResults = 2,
-}
-
 const App = () => {
-  // Change display type to preview design
-  const startingDisplayType = DisplayType.Question;
-  const rotateDisplays = true;
-  const [displayType, setDisplayType] = useState(startingDisplayType);
+  const questions = [
+    { question: "ち", answer: "chi" },
+    { question: "あ", answer: "a" },
+    { question: "し", answer: "shi" },
+    { question: "や", answer: "ya" },
+    { question: "み", answer: "mi" },
+  ];
+  const [prompt, setPrompt] = useState("Type the Hiragana");
+  const [question, setQuestion] = useState(1);
+  const [correct, setCorrect] = useState(0);
+  const [finished, setFinished] = useState(false);
+  const [color, setColor] = useState("light-gray");
+  const [text, setText] = useState(questions[0].question);
+  const [showMotivation, setShowMotivation] = useState(false);
 
-  // Interval to update the display type
-  useEffect(() => {
-    if (rotateDisplays) {
-      const intervalId = setInterval(() => {
-        setDisplayType((prevDisplayType) => (prevDisplayType + 1) % 3);
-      }, DisplayChangeIntervalMs);
-      return () => clearInterval(intervalId);
-    }
-  }, []);
-
-  switch (displayType) {
-    case DisplayType.Question:
-      return (
-        <div className="app">
-          <div className="prompt">Type the Hiragana</div>
-          <div className="display-box">
-            <div className="row">
-              <div className="info round gray">1 of 20</div>
-              <div className="info round green right">0</div>
-            </div>
-            <div className="box light-gray">
-              <div className="large">ち</div>
-              <div className="hidden info round gray">19 of 20</div>
-            </div>
-            <div className="form">
-              <input type="text" defaultValue="chi" />
-              <button className="button blue font-white">submit</button>
-            </div>
+  return (
+    <div className="app">
+      <Prompt text={prompt} />
+      <div className="display-box">
+        <div className="row">
+          <div className="info round gray">
+            {question} of {questions.length}
           </div>
+          <div className="info round green right">{correct}</div>
         </div>
-      );
+        <DisplayBox
+          color={color}
+          text={text}
+          textSize={finished ? "medium-large" : "large"}
+          subText={`${correct} of ${questions.length}`}
+          showSubText={finished}
+        />
+        <div className={showMotivation ? "" : "hidden"}>
+          Practice and you <b>will</b> improve
+        </div>
+        <Form
+          allowTyping={!finished}
+          buttonColor={finished ? "orange" : "blue"}
+          buttonText={finished ? "play again" : "submit"}
+          onClick={(text: string) => {
+            // Play again if game is finished
+            if (finished) {
+              setFinished(false);
+              setPrompt("Type the Hiragana");
+              setQuestion(1);
+              setCorrect(0);
+              setColor("light-gray");
+              setText(questions[0].question);
+              setShowMotivation(false);
+              return;
+            }
 
-    case DisplayType.GreatResults:
-      return (
-        <div className="app">
-          <div className="prompt">You did Great</div>
-          <div className="display-box">
-            <div className="row">
-              <div className="info round gray">1 of 20</div>
-              <div className="info round green right">0</div>
-            </div>
-            <div className="box green">
-              <div className="medium-large">95%</div>
-              <div className="info round gray right">19 of 20</div>
-            </div>
-            <div className="form">
-              <input type="text" disabled />
-              <button className="button orange font-white">play again</button>
-            </div>
-          </div>
-        </div>
-      );
+            // Update score
+            let score = correct;
+            if (text === questions[question - 1].answer) {
+              score += 1;
+              setCorrect(score);
+            }
 
-    case DisplayType.ImproveResults:
-      return (
-        <div className="app">
-          <div className="prompt">Keep Playing</div>
-          <div className="display-box">
-            <div className="row">
-              <div className="info round gray">1 of 20</div>
-              <div className="info round green right">0</div>
-            </div>
-            <div className="box light-orange">
-              <div className="medium-large">25%</div>
-              <div className="info round gray right">5 of 20</div>
-            </div>
-            <div>
-              Practice and you <b>will</b> improve
-            </div>
-            <div className="form">
-              <input type="text" disabled />
-              <button className="button orange font-white">play again</button>
-            </div>
-          </div>
-        </div>
-      );
-  }
+            // Proceed to next question
+            if (question < questions.length) {
+              setText(questions[question].question);
+              setQuestion(question + 1);
+              return;
+            }
+
+            // Finish game
+            const percent = Math.round((100 * score) / questions.length);
+            setFinished(true);
+            setPrompt(percent > 75 ? "You did Great" : "Keep Playing");
+            setColor(percent > 75 ? "green" : "light-orange");
+            setText(`${percent}%`);
+            setShowMotivation(percent <= 75);
+          }}
+        />
+      </div>
+    </div>
+  );
 };
 
 export default App;
