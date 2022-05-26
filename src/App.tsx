@@ -21,6 +21,8 @@ const App = () => {
   const [color, setColor] = useState("light-gray");
   const [text, setText] = useState(questions[0].question);
   const [showMotivation, setShowMotivation] = useState(false);
+  const [refocusText, setRefocusText] = useState(false);
+  const [refocusButton, setRefocusButton] = useState(false);
 
   return (
     <div className="app">
@@ -47,6 +49,10 @@ const App = () => {
           allowTyping={!finished}
           buttonColor={finished ? "orange" : "blue"}
           buttonText={finished ? "play again" : "submit"}
+          refocusText={refocusText}
+          onRefocusText={() => setRefocusText(false)}
+          refocusButton={refocusButton}
+          onRefocusButton={() => setRefocusButton(false)}
           onClick={(text: string) => {
             // Play again if game is finished
             if (finished) {
@@ -59,6 +65,7 @@ const App = () => {
               setColor("light-gray");
               setText(questions[0].question);
               setShowMotivation(false);
+              setRefocusText(true);
               return;
             }
 
@@ -78,6 +85,7 @@ const App = () => {
             if (question < questions.length) {
               setText(questions[question].question);
               setQuestion(question + 1);
+              setRefocusText(true);
               return;
             }
 
@@ -88,6 +96,7 @@ const App = () => {
             setColor(percent > 75 ? "green" : "light-orange");
             setText(`${percent}%`);
             setShowMotivation(percent <= 75);
+            setRefocusButton(true);
           }}
         />
       </div>
