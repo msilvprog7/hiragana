@@ -15,6 +15,8 @@ const App = () => {
   const [prompt, setPrompt] = useState("Type the Hiragana");
   const [question, setQuestion] = useState(1);
   const [correct, setCorrect] = useState(0);
+  const [incorrect, setIncorrect] = useState("");
+  const [showIncorrect, setShowIncorrect] = useState(false);
   const [finished, setFinished] = useState(false);
   const [color, setColor] = useState("light-gray");
   const [text, setText] = useState(questions[0].question);
@@ -37,6 +39,7 @@ const App = () => {
           subText={`${correct} of ${questions.length}`}
           showSubText={finished}
         />
+        <div className={showIncorrect ? "" : "hidden"}>{incorrect}</div>
         <div className={showMotivation ? "" : "hidden"}>
           Practice and you <b>will</b> improve
         </div>
@@ -51,6 +54,8 @@ const App = () => {
               setPrompt("Type the Hiragana");
               setQuestion(1);
               setCorrect(0);
+              setIncorrect("");
+              setShowIncorrect(false);
               setColor("light-gray");
               setText(questions[0].question);
               setShowMotivation(false);
@@ -59,9 +64,14 @@ const App = () => {
 
             // Update score
             let score = correct;
-            if (text === questions[question - 1].answer) {
+            let q = questions[question - 1];
+            if (text === q.answer) {
               score += 1;
               setCorrect(score);
+              setShowIncorrect(false);
+            } else {
+              setIncorrect(`${q.question} is '${q.answer}'`);
+              setShowIncorrect(true);
             }
 
             // Proceed to next question
